@@ -38,9 +38,11 @@ class BatmanGameFixTest {
     @Test
     fun applyFor_appliesBatmanFixes_whenInstalled() {
         val installDir = createTempDirectory(prefix = "batman-fix").toFile()
+        val rootDir = createTempDirectory(prefix = "root-fix").toFile()
         every { SteamService.getAppDirPath(35140) } returns installDir.absolutePath
         every { container.envVars } returns ""
         every { container.envVars = any() } just runs
+        every { container.getRootDir() } returns rootDir
         every { container.saveData() } just runs
 
         GameFixesRegistry.applyFor(context, "STEAM_35140", container)
